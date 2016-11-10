@@ -1,0 +1,329 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="DB_FristModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityContainer Name="DB_FristModelStoreContainer">
+          <EntitySet Name="DBAudit" EntityType="DB_FristModel.Store.DBAudit" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="T_COURES_SUBJECT_MAP" EntityType="DB_FristModel.Store.T_COURES_SUBJECT_MAP" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="T_COURSES" EntityType="DB_FristModel.Store.T_COURSES" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="T_SUBJECT" EntityType="DB_FristModel.Store.T_SUBJECT" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="T_USER" EntityType="DB_FristModel.Store.T_USER" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="T_USERTYPE" EntityType="DB_FristModel.Store.T_USERTYPE" store:Type="Tables" Schema="dbo" />
+          <AssociationSet Name="FK__T_COURES___Cours__164452B1" Association="DB_FristModel.Store.FK__T_COURES___Cours__164452B1">
+            <End Role="T_COURSES" EntitySet="T_COURSES" />
+            <End Role="T_COURES_SUBJECT_MAP" EntitySet="T_COURES_SUBJECT_MAP" />
+          </AssociationSet>
+          <AssociationSet Name="FK__T_COURES___Subje__173876EA" Association="DB_FristModel.Store.FK__T_COURES___Subje__173876EA">
+            <End Role="T_SUBJECT" EntitySet="T_SUBJECT" />
+            <End Role="T_COURES_SUBJECT_MAP" EntitySet="T_COURES_SUBJECT_MAP" />
+          </AssociationSet>
+          <AssociationSet Name="FK__T_USER__UserType__1A14E395" Association="DB_FristModel.Store.FK__T_USER__UserType__1A14E395">
+            <End Role="T_USERTYPE" EntitySet="T_USERTYPE" />
+            <End Role="T_USER" EntitySet="T_USER" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="DBAudit">
+          <Key>
+            <PropertyRef Name="AuditId" />
+          </Key>
+          <Property Name="AuditId" Type="varchar" Nullable="false" MaxLength="200" />
+          <Property Name="RevisionStamp" Type="datetime" />
+          <Property Name="TableName" Type="nvarchar" MaxLength="50" />
+          <Property Name="UserName" Type="nvarchar" MaxLength="50" />
+          <Property Name="Actions" Type="nvarchar" MaxLength="1" />
+          <Property Name="OldData" Type="xml" />
+          <Property Name="NewData" Type="xml" />
+          <Property Name="ChangedColumns" Type="nvarchar" MaxLength="1000" />
+        </EntityType>
+        <EntityType Name="T_COURES_SUBJECT_MAP">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="CourseID" Type="int" />
+          <Property Name="SubjectID" Type="int" />
+        </EntityType>
+        <EntityType Name="T_COURSES">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Course_Name" Type="varchar" MaxLength="250" />
+          <Property Name="Descriptions" Type="varchar" MaxLength="500" />
+        </EntityType>
+        <EntityType Name="T_SUBJECT">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Subject_Name" Type="varchar" MaxLength="250" />
+          <Property Name="Descriptions" Type="varchar" MaxLength="500" />
+        </EntityType>
+        <EntityType Name="T_USER">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="varchar" MaxLength="250" />
+          <Property Name="DOB" Type="date" />
+          <Property Name="Gender" Type="varchar" MaxLength="10" />
+          <Property Name="UserType" Type="int" />
+        </EntityType>
+        <EntityType Name="T_USERTYPE">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="varchar" MaxLength="250" />
+          <Property Name="Descriptions" Type="varchar" MaxLength="500" />
+        </EntityType>
+        <Association Name="FK__T_COURES___Cours__164452B1">
+          <End Role="T_COURSES" Type="DB_FristModel.Store.T_COURSES" Multiplicity="0..1" />
+          <End Role="T_COURES_SUBJECT_MAP" Type="DB_FristModel.Store.T_COURES_SUBJECT_MAP" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="T_COURSES">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="T_COURES_SUBJECT_MAP">
+              <PropertyRef Name="CourseID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__T_COURES___Subje__173876EA">
+          <End Role="T_SUBJECT" Type="DB_FristModel.Store.T_SUBJECT" Multiplicity="0..1" />
+          <End Role="T_COURES_SUBJECT_MAP" Type="DB_FristModel.Store.T_COURES_SUBJECT_MAP" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="T_SUBJECT">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="T_COURES_SUBJECT_MAP">
+              <PropertyRef Name="SubjectID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__T_USER__UserType__1A14E395">
+          <End Role="T_USERTYPE" Type="DB_FristModel.Store.T_USERTYPE" Multiplicity="0..1" />
+          <End Role="T_USER" Type="DB_FristModel.Store.T_USER" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="T_USERTYPE">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="T_USER">
+              <PropertyRef Name="UserType" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="DB_FristModel" Alias="Self" p1:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:p1="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="DB_FristEntities" p1:LazyLoadingEnabled="true">
+          <EntitySet Name="T_COURES_SUBJECT_MAP" EntityType="DB_FristModel.T_COURES_SUBJECT_MAP" />
+          <EntitySet Name="T_COURSES" EntityType="DB_FristModel.T_COURSES" />
+          <EntitySet Name="T_SUBJECT" EntityType="DB_FristModel.T_SUBJECT" />
+          <EntitySet Name="T_USERTYPE" EntityType="DB_FristModel.T_USERTYPE" />
+          <AssociationSet Name="FK__T_COURES___Cours__164452B1" Association="DB_FristModel.FK__T_COURES___Cours__164452B1">
+            <End Role="T_COURSES" EntitySet="T_COURSES" />
+            <End Role="T_COURES_SUBJECT_MAP" EntitySet="T_COURES_SUBJECT_MAP" />
+          </AssociationSet>
+          <AssociationSet Name="FK__T_COURES___Subje__173876EA" Association="DB_FristModel.FK__T_COURES___Subje__173876EA">
+            <End Role="T_SUBJECT" EntitySet="T_SUBJECT" />
+            <End Role="T_COURES_SUBJECT_MAP" EntitySet="T_COURES_SUBJECT_MAP" />
+          </AssociationSet>
+          <EntitySet Name="T_USER" EntityType="DB_FristModel.T_USER" />
+          <AssociationSet Name="FK__T_USER__UserType__1A14E395" Association="DB_FristModel.FK__T_USER__UserType__1A14E395">
+            <End Role="T_USERTYPE" EntitySet="T_USERTYPE" />
+            <End Role="T_USER" EntitySet="T_USER" />
+          </AssociationSet>
+          <EntitySet Name="DBAudits" EntityType="DB_FristModel.DBAudit" />
+        </EntityContainer>
+        <EntityType Name="T_COURES_SUBJECT_MAP">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="CourseID" Type="Int32" />
+          <Property Name="SubjectID" Type="Int32" />
+          <NavigationProperty Name="T_COURSES" Relationship="DB_FristModel.FK__T_COURES___Cours__164452B1" FromRole="T_COURES_SUBJECT_MAP" ToRole="T_COURSES" />
+          <NavigationProperty Name="T_SUBJECT" Relationship="DB_FristModel.FK__T_COURES___Subje__173876EA" FromRole="T_COURES_SUBJECT_MAP" ToRole="T_SUBJECT" />
+        </EntityType>
+        <EntityType Name="T_COURSES">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="Course_Name" Type="String" MaxLength="250" Unicode="false" FixedLength="false" />
+          <Property Name="Descriptions" Type="String" MaxLength="500" Unicode="false" FixedLength="false" />
+          <NavigationProperty Name="T_COURES_SUBJECT_MAP" Relationship="DB_FristModel.FK__T_COURES___Cours__164452B1" FromRole="T_COURSES" ToRole="T_COURES_SUBJECT_MAP" />
+        </EntityType>
+        <EntityType Name="T_SUBJECT">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="Subject_Name" Type="String" MaxLength="250" Unicode="false" FixedLength="false" />
+          <Property Name="Descriptions" Type="String" MaxLength="500" Unicode="false" FixedLength="false" />
+          <NavigationProperty Name="T_COURES_SUBJECT_MAP" Relationship="DB_FristModel.FK__T_COURES___Subje__173876EA" FromRole="T_SUBJECT" ToRole="T_COURES_SUBJECT_MAP" />
+        </EntityType>
+        <EntityType Name="T_USERTYPE">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="250" Unicode="false" FixedLength="false" />
+          <Property Name="Descriptions" Type="String" MaxLength="500" Unicode="false" FixedLength="false" />
+          <NavigationProperty Name="T_USER" Relationship="DB_FristModel.FK__T_USER__UserType__1A14E395" FromRole="T_USERTYPE" ToRole="T_USER" />
+        </EntityType>
+        <Association Name="FK__T_COURES___Cours__164452B1">
+          <End Role="T_COURSES" Type="DB_FristModel.T_COURSES" Multiplicity="0..1" />
+          <End Role="T_COURES_SUBJECT_MAP" Type="DB_FristModel.T_COURES_SUBJECT_MAP" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="T_COURSES">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="T_COURES_SUBJECT_MAP">
+              <PropertyRef Name="CourseID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__T_COURES___Subje__173876EA">
+          <End Role="T_SUBJECT" Type="DB_FristModel.T_SUBJECT" Multiplicity="0..1" />
+          <End Role="T_COURES_SUBJECT_MAP" Type="DB_FristModel.T_COURES_SUBJECT_MAP" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="T_SUBJECT">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="T_COURES_SUBJECT_MAP">
+              <PropertyRef Name="SubjectID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="T_USER">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Type="Int32" Name="ID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="Name" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Type="DateTime" Name="DOB" Precision="0" />
+          <Property Type="String" Name="Gender" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Type="Int32" Name="UserType" />
+          <NavigationProperty Name="T_USERTYPE" Relationship="DB_FristModel.FK__T_USER__UserType__1A14E395" FromRole="T_USER" ToRole="T_USERTYPE" />
+        </EntityType>
+        <Association Name="FK__T_USER__UserType__1A14E395">
+          <End Type="DB_FristModel.T_USERTYPE" Role="T_USERTYPE" Multiplicity="0..1" />
+          <End Type="DB_FristModel.T_USER" Role="T_USER" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="T_USERTYPE">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="T_USER">
+              <PropertyRef Name="UserType" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="DBAudit">
+          <Key>
+            <PropertyRef Name="AuditId" />
+          </Key>
+          <Property Type="String" Name="AuditId" Nullable="false" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Type="DateTime" Name="RevisionStamp" Precision="3" />
+          <Property Type="String" Name="TableName" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="UserName" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="Actions" MaxLength="1" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="OldData" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="NewData" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="ChangedColumns" MaxLength="1000" FixedLength="false" Unicode="true" />
+        </EntityType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="DB_FristModelStoreContainer" CdmEntityContainer="DB_FristEntities">
+          <EntitySetMapping Name="T_COURES_SUBJECT_MAP">
+            <EntityTypeMapping TypeName="DB_FristModel.T_COURES_SUBJECT_MAP">
+              <MappingFragment StoreEntitySet="T_COURES_SUBJECT_MAP">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="CourseID" ColumnName="CourseID" />
+                <ScalarProperty Name="SubjectID" ColumnName="SubjectID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="T_COURSES">
+            <EntityTypeMapping TypeName="DB_FristModel.T_COURSES">
+              <MappingFragment StoreEntitySet="T_COURSES">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Course_Name" ColumnName="Course_Name" />
+                <ScalarProperty Name="Descriptions" ColumnName="Descriptions" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="T_SUBJECT">
+            <EntityTypeMapping TypeName="DB_FristModel.T_SUBJECT">
+              <MappingFragment StoreEntitySet="T_SUBJECT">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Subject_Name" ColumnName="Subject_Name" />
+                <ScalarProperty Name="Descriptions" ColumnName="Descriptions" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="T_USERTYPE">
+            <EntityTypeMapping TypeName="DB_FristModel.T_USERTYPE">
+              <MappingFragment StoreEntitySet="T_USERTYPE">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Descriptions" ColumnName="Descriptions" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="T_USER">
+            <EntityTypeMapping TypeName="DB_FristModel.T_USER">
+              <MappingFragment StoreEntitySet="T_USER">
+                <ScalarProperty Name="UserType" ColumnName="UserType" />
+                <ScalarProperty Name="Gender" ColumnName="Gender" />
+                <ScalarProperty Name="DOB" ColumnName="DOB" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DBAudits">
+            <EntityTypeMapping TypeName="DB_FristModel.DBAudit">
+              <MappingFragment StoreEntitySet="DBAudit">
+                <ScalarProperty Name="ChangedColumns" ColumnName="ChangedColumns" />
+                <ScalarProperty Name="NewData" ColumnName="NewData" />
+                <ScalarProperty Name="OldData" ColumnName="OldData" />
+                <ScalarProperty Name="Actions" ColumnName="Actions" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="TableName" ColumnName="TableName" />
+                <ScalarProperty Name="RevisionStamp" ColumnName="RevisionStamp" />
+                <ScalarProperty Name="AuditId" ColumnName="AuditId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="True" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

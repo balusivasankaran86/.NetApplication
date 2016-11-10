@@ -1,0 +1,26 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Console_App", "Samples\Console_App.csproj", "{5F1BA100-4D94-4D68-91D7-4523C9D0B73E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EF_DbFirst", "EF_DbFirst\EF_DbFirst.csproj", "{74F08D36-A680-4F73-AF0E-614AB99DB577}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{5F1BA100-4D94-4D68-91D7-4523C9D0B73E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5F1BA100-4D94-4D68-91D7-4523C9D0B73E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5F1BA100-4D94-4D68-91D7-4523C9D0B73E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5F1BA100-4D94-4D68-91D7-4523C9D0B73E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{74F08D36-A680-4F73-AF0E-614AB99DB577}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{74F08D36-A680-4F73-AF0E-614AB99DB577}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{74F08D36-A680-4F73-AF0E-614AB99DB577}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{74F08D36-A680-4F73-AF0E-614AB99DB577}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="12020370c4f945ba8f27d4d4d2132bbd" Name="Diagram1">
+        <EntityTypeShape EntityType="DB_FristModel.T_COURES_SUBJECT_MAP" Width="1.5" PointX="3" PointY="0.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_FristModel.T_COURSES" Width="1.5" PointX="0.75" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_FristModel.T_SUBJECT" Width="1.5" PointX="0.75" PointY="4" IsExpanded="true" />
+        <EntityTypeShape EntityType="DB_FristModel.T_USERTYPE" Width="1.5" PointX="2.75" PointY="3.75" IsExpanded="true" />
+        <AssociationConnector Association="DB_FristModel.FK__T_COURES___Cours__164452B1" ManuallyRouted="false" />
+        <AssociationConnector Association="DB_FristModel.FK__T_COURES___Subje__173876EA" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="DB_FristModel.T_USER" Width="1.5" PointX="7.25" PointY="3.875" />
+        <AssociationConnector Association="DB_FristModel.FK__T_USER__UserType__1A14E395" />
+        <EntityTypeShape EntityType="DB_FristModel.DBAudit" Width="1.5" PointX="9.6548728466289457" PointY="30.563915594743527" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
