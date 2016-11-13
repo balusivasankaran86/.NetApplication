@@ -11,10 +11,12 @@ namespace EF_DbFirst.Repository
     public interface IRepository<T> where T : class
     {
         IEnumerable<T> GetAll(Func<T, bool> predicate = null);
+        IEnumerable<T> FindAll(List<Filter> filters);
         T Get(Func<T, bool> predicate);
         void Add(T entity);
         void Attach(T entity);
         void Delete(T entity);
+
     }
 
 }

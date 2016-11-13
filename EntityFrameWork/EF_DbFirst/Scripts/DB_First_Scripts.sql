@@ -39,7 +39,7 @@ CourseID int FOREIGN KEY REFERENCES T_COURSES(ID),
 SubjectID int FOREIGN KEY REFERENCES T_SUBJECT(ID)
 )
 
-CREATE TABLE [dbo].[DBAudit](
+CREATE TABLE [DBAudit](
 	[AuditId] [varchar](200) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
 	[RevisionStamp] [datetime] NULL,
 	[TableName] [nvarchar](50) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,

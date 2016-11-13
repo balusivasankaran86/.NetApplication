@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="DB_FristModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+      <Schema Namespace="DB_FristModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityContainer Name="DB_FristModelStoreContainer">
           <EntitySet Name="DBAudit" EntityType="DB_FristModel.Store.DBAudit" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="T_COURES_SUBJECT_MAP" EntityType="DB_FristModel.Store.T_COURES_SUBJECT_MAP" store:Type="Tables" Schema="dbo" />
@@ -116,14 +116,17 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-      </Schema></edmx:StorageModels>
+      </Schema>
+    </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="DB_FristModel" Alias="Self" p1:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:p1="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityContainer Name="DB_FristEntities" p1:LazyLoadingEnabled="true">
+          <EntitySet Name="DBAudits" EntityType="DB_FristModel.DBAudit" />
           <EntitySet Name="T_COURES_SUBJECT_MAP" EntityType="DB_FristModel.T_COURES_SUBJECT_MAP" />
           <EntitySet Name="T_COURSES" EntityType="DB_FristModel.T_COURSES" />
           <EntitySet Name="T_SUBJECT" EntityType="DB_FristModel.T_SUBJECT" />
+          <EntitySet Name="T_USER" EntityType="DB_FristModel.T_USER" />
           <EntitySet Name="T_USERTYPE" EntityType="DB_FristModel.T_USERTYPE" />
           <AssociationSet Name="FK__T_COURES___Cours__164452B1" Association="DB_FristModel.FK__T_COURES___Cours__164452B1">
             <End Role="T_COURSES" EntitySet="T_COURSES" />
@@ -133,13 +136,24 @@
             <End Role="T_SUBJECT" EntitySet="T_SUBJECT" />
             <End Role="T_COURES_SUBJECT_MAP" EntitySet="T_COURES_SUBJECT_MAP" />
           </AssociationSet>
-          <EntitySet Name="T_USER" EntityType="DB_FristModel.T_USER" />
           <AssociationSet Name="FK__T_USER__UserType__1A14E395" Association="DB_FristModel.FK__T_USER__UserType__1A14E395">
             <End Role="T_USERTYPE" EntitySet="T_USERTYPE" />
             <End Role="T_USER" EntitySet="T_USER" />
           </AssociationSet>
-          <EntitySet Name="DBAudits" EntityType="DB_FristModel.DBAudit" />
         </EntityContainer>
+        <EntityType Name="DBAudit">
+          <Key>
+            <PropertyRef Name="AuditId" />
+          </Key>
+          <Property Name="AuditId" Type="String" Nullable="false" MaxLength="200" Unicode="false" FixedLength="false" />
+          <Property Name="RevisionStamp" Type="DateTime" Precision="3" />
+          <Property Name="TableName" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
+          <Property Name="UserName" Type="String" MaxLength="50" Unicode="true" FixedLength="false" />
+          <Property Name="Actions" Type="String" MaxLength="1" Unicode="true" FixedLength="false" />
+          <Property Name="OldData" Type="String" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <Property Name="NewData" Type="String" MaxLength="Max" Unicode="true" FixedLength="false" />
+          <Property Name="ChangedColumns" Type="String" MaxLength="1000" Unicode="true" FixedLength="false" />
+        </EntityType>
         <EntityType Name="T_COURES_SUBJECT_MAP">
           <Key>
             <PropertyRef Name="ID" />
@@ -167,6 +181,17 @@
           <Property Name="Subject_Name" Type="String" MaxLength="250" Unicode="false" FixedLength="false" />
           <Property Name="Descriptions" Type="String" MaxLength="500" Unicode="false" FixedLength="false" />
           <NavigationProperty Name="T_COURES_SUBJECT_MAP" Relationship="DB_FristModel.FK__T_COURES___Subje__173876EA" FromRole="T_SUBJECT" ToRole="T_COURES_SUBJECT_MAP" />
+        </EntityType>
+        <EntityType Name="T_USER">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="250" Unicode="false" FixedLength="false" />
+          <Property Name="DOB" Type="DateTime" Precision="0" />
+          <Property Name="Gender" Type="String" MaxLength="10" Unicode="false" FixedLength="false" />
+          <Property Name="UserType" Type="Int32" />
+          <NavigationProperty Name="T_USERTYPE" Relationship="DB_FristModel.FK__T_USER__UserType__1A14E395" FromRole="T_USER" ToRole="T_USERTYPE" />
         </EntityType>
         <EntityType Name="T_USERTYPE">
           <Key>
@@ -201,20 +226,9 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="T_USER">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Type="Int32" Name="ID" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Type="String" Name="Name" MaxLength="250" FixedLength="false" Unicode="false" />
-          <Property Type="DateTime" Name="DOB" Precision="0" />
-          <Property Type="String" Name="Gender" MaxLength="10" FixedLength="false" Unicode="false" />
-          <Property Type="Int32" Name="UserType" />
-          <NavigationProperty Name="T_USERTYPE" Relationship="DB_FristModel.FK__T_USER__UserType__1A14E395" FromRole="T_USER" ToRole="T_USERTYPE" />
-        </EntityType>
         <Association Name="FK__T_USER__UserType__1A14E395">
-          <End Type="DB_FristModel.T_USERTYPE" Role="T_USERTYPE" Multiplicity="0..1" />
-          <End Type="DB_FristModel.T_USER" Role="T_USER" Multiplicity="*" />
+          <End Role="T_USERTYPE" Type="DB_FristModel.T_USERTYPE" Multiplicity="0..1" />
+          <End Role="T_USER" Type="DB_FristModel.T_USER" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="T_USERTYPE">
               <PropertyRef Name="ID" />
@@ -224,25 +238,26 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="DBAudit">
-          <Key>
-            <PropertyRef Name="AuditId" />
-          </Key>
-          <Property Type="String" Name="AuditId" Nullable="false" MaxLength="200" FixedLength="false" Unicode="false" />
-          <Property Type="DateTime" Name="RevisionStamp" Precision="3" />
-          <Property Type="String" Name="TableName" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="UserName" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="Actions" MaxLength="1" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="OldData" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="NewData" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Type="String" Name="ChangedColumns" MaxLength="1000" FixedLength="false" Unicode="true" />
-        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="DB_FristModelStoreContainer" CdmEntityContainer="DB_FristEntities">
+          <EntitySetMapping Name="DBAudits">
+            <EntityTypeMapping TypeName="DB_FristModel.DBAudit">
+              <MappingFragment StoreEntitySet="DBAudit">
+                <ScalarProperty Name="AuditId" ColumnName="AuditId" />
+                <ScalarProperty Name="RevisionStamp" ColumnName="RevisionStamp" />
+                <ScalarProperty Name="TableName" ColumnName="TableName" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="Actions" ColumnName="Actions" />
+                <ScalarProperty Name="OldData" ColumnName="OldData" />
+                <ScalarProperty Name="NewData" ColumnName="NewData" />
+                <ScalarProperty Name="ChangedColumns" ColumnName="ChangedColumns" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="T_COURES_SUBJECT_MAP">
             <EntityTypeMapping TypeName="DB_FristModel.T_COURES_SUBJECT_MAP">
               <MappingFragment StoreEntitySet="T_COURES_SUBJECT_MAP">
@@ -270,37 +285,23 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="T_USER">
+            <EntityTypeMapping TypeName="DB_FristModel.T_USER">
+              <MappingFragment StoreEntitySet="T_USER">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="DOB" ColumnName="DOB" />
+                <ScalarProperty Name="Gender" ColumnName="Gender" />
+                <ScalarProperty Name="UserType" ColumnName="UserType" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="T_USERTYPE">
             <EntityTypeMapping TypeName="DB_FristModel.T_USERTYPE">
               <MappingFragment StoreEntitySet="T_USERTYPE">
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="Descriptions" ColumnName="Descriptions" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="T_USER">
-            <EntityTypeMapping TypeName="DB_FristModel.T_USER">
-              <MappingFragment StoreEntitySet="T_USER">
-                <ScalarProperty Name="UserType" ColumnName="UserType" />
-                <ScalarProperty Name="Gender" ColumnName="Gender" />
-                <ScalarProperty Name="DOB" ColumnName="DOB" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="ID" ColumnName="ID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="DBAudits">
-            <EntityTypeMapping TypeName="DB_FristModel.DBAudit">
-              <MappingFragment StoreEntitySet="DBAudit">
-                <ScalarProperty Name="ChangedColumns" ColumnName="ChangedColumns" />
-                <ScalarProperty Name="NewData" ColumnName="NewData" />
-                <ScalarProperty Name="OldData" ColumnName="OldData" />
-                <ScalarProperty Name="Actions" ColumnName="Actions" />
-                <ScalarProperty Name="UserName" ColumnName="UserName" />
-                <ScalarProperty Name="TableName" ColumnName="TableName" />
-                <ScalarProperty Name="RevisionStamp" ColumnName="RevisionStamp" />
-                <ScalarProperty Name="AuditId" ColumnName="AuditId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

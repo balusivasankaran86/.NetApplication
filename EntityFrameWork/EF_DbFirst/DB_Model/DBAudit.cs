@@ -12,17 +12,15 @@ namespace EF_DbFirst.DB_Model
     using System;
     using System.Collections.Generic;
     
-    public partial class T_USERTYPE
+    public partial class DBAudit
     {
-        public T_USERTYPE()
-        {
-            this.T_USER = new HashSet<T_USER>();
-        }
-    
-        public int ID { get; set; }
-        public string Name { get; set; }
-        public string Descriptions { get; set; }
-    
-        public virtual ICollection<T_USER> T_USER { get; set; }
+        public string AuditId { get; set; }
+        public Nullable<System.DateTime> RevisionStamp { get; set; }
+        public string TableName { get; set; }
+        public string UserName { get; set; }
+        public string Actions { get; set; }
+        public string OldData { get; set; }
+        public string NewData { get; set; }
+        public string ChangedColumns { get; set; }
     }
 }

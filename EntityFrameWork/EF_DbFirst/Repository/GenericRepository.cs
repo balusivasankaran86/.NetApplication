@@ -36,10 +36,18 @@ namespace EF_DbFirst.Repository
             return _objectSet.First(predicate);
         }
 
+        public IEnumerable<T> FindAll(List<Filter> filters)
+        {
+            var deleg = ExpressionBuilder.GetExpression<T>(filters).Compile();
+            return _objectSet.Where(deleg);
+        }
+
         public void Add(T entity)
         {
             _objectSet.Add(entity);
         }
+
+      
 
         public void Attach(T entity)
         {

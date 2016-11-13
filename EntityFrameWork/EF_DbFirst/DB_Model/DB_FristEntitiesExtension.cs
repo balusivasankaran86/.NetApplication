@@ -1,13 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Data.Entity;
+using System.Data.Entity.Core.Objects.DataClasses;
+using System.Data.Objects;
+using System.IO;
 using System.Linq;
+using System.Reflection;
+using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace EF_DbFirst.DB_Model
 {
-    public partial class DB_FristEntities
-    {
+    public partial class DB_FristEntities     {
         public string UserName { get; set; }
         List<DBAudit> auditTrailList = new List<DBAudit>();
 

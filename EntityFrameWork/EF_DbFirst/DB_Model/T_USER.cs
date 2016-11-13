@@ -12,17 +12,14 @@ namespace EF_DbFirst.DB_Model
     using System;
     using System.Collections.Generic;
     
-    public partial class T_USERTYPE
+    public partial class T_USER
     {
-        public T_USERTYPE()
-        {
-            this.T_USER = new HashSet<T_USER>();
-        }
-    
         public int ID { get; set; }
         public string Name { get; set; }
-        public string Descriptions { get; set; }
+        public Nullable<System.DateTime> DOB { get; set; }
+        public string Gender { get; set; }
+        public Nullable<int> UserType { get; set; }
     
-        public virtual ICollection<T_USER> T_USER { get; set; }
+        public virtual T_USERTYPE T_USERTYPE { get; set; }
     }
 }

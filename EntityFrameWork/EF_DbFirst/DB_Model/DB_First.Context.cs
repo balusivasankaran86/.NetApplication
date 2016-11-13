@@ -10,25 +10,182 @@
 namespace EF_DbFirst.DB_Model
 {
     using System;
+    using System.Collections.Generic;
     using System.Data.Entity;
+    using System.Data.Entity.Core.Objects;
     using System.Data.Entity.Infrastructure;
-    
+    using System.Linq;
+    using System.Text;
+    using System.Xml.Serialization;
+    using System.Xml.Linq;
+    using System.Reflection;
+    using System.Xml;
+    using System.Runtime.Serialization;
+    using System.IO;
+    using System.Xml;
+    using System.Runtime.Serialization;
+    using System.IO;
+    using EF_DbFirst.Repository;
+    using System.Data.Objects.DataClasses;
+
+
     public partial class DB_FristEntities : DbContext
     {
         public DB_FristEntities()
             : base("name=DB_FristEntities")
         {
         }
-    
+
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
-           
+            throw new UnintentionalCodeFirstException();
         }
-    
+
+        public DbSet<DBAudit> DBAudits { get; set; }
         public DbSet<T_COURES_SUBJECT_MAP> T_COURES_SUBJECT_MAP { get; set; }
         public DbSet<T_COURSES> T_COURSES { get; set; }
         public DbSet<T_SUBJECT> T_SUBJECT { get; set; }
+        public DbSet<T_USER> T_USER { get; set; }
         public DbSet<T_USERTYPE> T_USERTYPE { get; set; }
-        
+
     }
+
+    public class AuditLog
+    {
+        public string State { get; set; }
+        public string TableName { get; set; }
+        public string RecordID { get; set; }
+        public string ColumnName { get; set; }
+        public string NewValue { get; set; }
+        public string OriginalValue { get; set; }
+    }
+
+
+
+    public partial class DB_FristEntities
+    {
+        List<AuditLog> AuditLogs = new List<AuditLog>();
+        public override int SaveChanges()
+        {
+            
+            foreach (var item in this.ChangeTracker.Entries().Where(e => e.State == EntityState.Modified))
+            {
+                Console.WriteLine("EntityState.Modified Found entity of type {0} with state {1}", ObjectContext.GetObjectType(item.Entity.GetType()).Name, item.State);
+                Console.WriteLine("Found Blog OriginalValues {0}:  with CurrentValues {1}", item.OriginalValues.ToString(), item.CurrentValues.ToString());
+            }
+
+            foreach (var item in this.ChangeTracker.Entries().Where(e => e.State == EntityState.Added))
+            {
+                Console.WriteLine("EntityState.Added Found entity of type {0} with state {1}", ObjectContext.GetObjectType(item.Entity.GetType()).Name, item.State);
+            }
+
+            var ChangeTrack  = this.ChangeTracker.Entries().Where(p => p.State == EntityState.Added || p.State == EntityState.Deleted || p.State == EntityState.Modified);
+
+            foreach (var entry in ChangeTrack)
+            {
+                if (entry.Entity != null)
+                {
+                    string entityName = string.Empty;
+                    string state = string.Empty;
+                    switch (entry.State)
+                    {
+                        case EntityState.Modified:
+                            entityName = ObjectContext.GetObjectType(entry.Entity.GetType()).Name;
+                            var primaryKey = GetPrimaryKeyValue(entry);
+                             var oc = ((IObjectContextAdapter)this).ObjectContext;
+                            ObjectStateEntry ose;
+                            if (null != entry.Entity.GetType() && oc.ObjectStateManager.TryGetObjectStateEntry(entry.Entity.GetType(), out ose))
+                            {
+                                var entityKey =  ose.EntityKey;
+                            }
+
+           
+                            state = entry.State.ToString();
+                            foreach (string prop in entry.OriginalValues.PropertyNames)
+                            {
+                                object currentValue = entry.CurrentValues[prop];
+                                object originalValue = entry.OriginalValues[prop];
+                                if (!currentValue.Equals(originalValue))
+                                {
+                                    AuditLogs.Add(new AuditLog
+                                    {
+                                        TableName = entityName,
+                                        State = state,
+                                        ColumnName = prop,
+                                        OriginalValue = Convert.ToString(originalValue),
+                                        NewValue = Convert.ToString(currentValue),
+                                    });
+                                }
+                            }
+                            break;
+                        case EntityState.Added:
+                            entityName = ObjectContext.GetObjectType(entry.Entity.GetType()).Name;
+                            var UprimaryKey = GetPrimaryKeyValue(entry);
+                            state = entry.State.ToString();
+                               var ocA = ((IObjectContextAdapter)this).ObjectContext;
+                            ObjectStateEntry oseA;
+                            if (null != entry.Entity.GetType() && ocA.ObjectStateManager.TryGetObjectStateEntry(entry.Entity.GetType(), out oseA))
+                            {
+                                var entityKey = oseA.EntityKey;
+                            }
+
+                            foreach (string prop in entry.CurrentValues.PropertyNames)
+                            {
+                                AuditLogs.Add(new AuditLog
+                                {
+                                    TableName = entityName,
+                                    State = state,
+                                    ColumnName = prop,
+                                    OriginalValue = string.Empty,
+                                    NewValue = Convert.ToString(entry.CurrentValues[prop]),
+                                });
+
+                            }
+                            break;
+                        case EntityState.Deleted:
+                            entityName = ObjectContext.GetObjectType(entry.Entity.GetType()).Name;
+                            state = entry.State.ToString();
+                            foreach (string prop in entry.OriginalValues.PropertyNames)
+                            {
+                                AuditLogs.Add(new AuditLog
+                                {
+                                    TableName = entityName,
+                                    State = state,
+                                    ColumnName = prop,
+                                    OriginalValue = Convert.ToString(entry.OriginalValues[prop]),
+                                    NewValue = string.Empty,
+                                });
+
+                            }
+                            break;
+                        default:
+                            break;
+                    }
+                }
+            }
+
+
+            foreach (var item in AuditLogs)
+            {
+                Console.WriteLine(item.ToString());
+            }
+
+
+
+            return base.SaveChanges(); 
+           
+        }
+
+        object GetPrimaryKeyValue(DbEntityEntry entry)
+        {
+            var objectStateEntry = ((IObjectContextAdapter)this).ObjectContext.ObjectStateManager.GetObjectStateEntry(entry.Entity);
+            return objectStateEntry.EntityKey.EntityKeyValues[0].Value;
+        }
+    
+
+        
+
+    }
+
+
 }
